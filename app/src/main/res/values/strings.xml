@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">nbc search</string>
+    <string name="search_image">이미지 검색</string>
+    <string name="my_storage">내 보관함</string>
 </resources>

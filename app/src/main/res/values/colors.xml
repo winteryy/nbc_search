@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="theme_san_juan">#355070</color>
+    <color name="theme_grape">#6D597A</color>
+    <color name="theme_tapestry">#B56576</color>
+    <color name="theme_sunglo">#E56B6F</color>
+    <color name="theme_tonys_pink">#EAAC8B</color>
 </resources>
