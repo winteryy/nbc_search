@@ -54,6 +54,7 @@
         app:layout_constraintTop_toTopOf="@id/searchBackgroundView" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_extra_small"
