@@ -10,4 +10,5 @@ interface SearchRepository {
         page: Int,
         size: Int
     ): SearchImageEntity
+
 }

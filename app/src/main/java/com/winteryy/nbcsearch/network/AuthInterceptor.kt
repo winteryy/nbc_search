@@ -8,7 +8,7 @@ class AuthInterceptor: Interceptor {
         val newRequest = chain.request().newBuilder()
             .addHeader(
                 "Authorization",
-                "KakaoAK "
+                "KakaoAK 8a81e9d14560f5b7e696711bf1c8f62b"
             )
             .build()
         return chain.proceed(newRequest)
