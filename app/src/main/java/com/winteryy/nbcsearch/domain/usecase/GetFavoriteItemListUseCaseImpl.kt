@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetFavoriteItemMapUseCaseImpl @Inject constructor(
+class GetFavoriteItemListUseCaseImpl @Inject constructor(
     private val storageRepository: StorageRepository
-): GetFavoriteItemMapUseCase {
+): GetFavoriteItemListUseCase {
 
     override suspend fun invoke(): Flow<List<StorageEntity>> {
         return storageRepository.getFavoriteItemMap().map { itemMap ->

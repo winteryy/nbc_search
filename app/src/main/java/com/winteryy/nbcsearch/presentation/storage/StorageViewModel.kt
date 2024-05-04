@@ -2,7 +2,7 @@ package com.winteryy.nbcsearch.presentation.storage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCase
+import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemListUseCase
 import com.winteryy.nbcsearch.domain.usecase.RemoveFavoriteItemUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StorageViewModel @Inject constructor(
-    private val getFavoriteItemMapUseCase: GetFavoriteItemMapUseCase,
+    private val getFavoriteItemListUseCase: GetFavoriteItemListUseCase,
     private val removeFavoriteItemUseCase: RemoveFavoriteItemUseCase
 ): ViewModel() {
 
@@ -24,7 +24,7 @@ class StorageViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getFavoriteItemMapUseCase().collectLatest { data ->
+            getFavoriteItemListUseCase().collectLatest { data ->
                 _favoriteList.value = data.map { it.toListItem() }
             }
         }
