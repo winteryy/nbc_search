@@ -20,7 +20,9 @@ class StorageFragment: Fragment() {
 
     private val storageViewModel: StorageViewModel by viewModels()
     private val adapter by lazy {
-        StorageRVAdapter()
+        StorageRVAdapter {
+            storageViewModel.removeItem(it)
+        }
     }
 
     override fun onCreateView(

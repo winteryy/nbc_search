@@ -10,6 +10,7 @@ import coil.load
 import com.winteryy.nbcsearch.databinding.ItemContentBinding
 
 class StorageRVAdapter(
+    private val onClick: (String) -> Unit
 ): ListAdapter<StorageListItem, StorageRVAdapter.StorageViewHolder>(DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StorageRVAdapter.StorageViewHolder {
@@ -33,6 +34,9 @@ class StorageRVAdapter(
                 itemImageView.load(item.thumbnailUrl)
                 itemSiteTextView.text = item.siteName
                 itemDateTextView.text = item.datetime.toString()
+            }
+            binding.root.setOnClickListener {
+                onClick(item.thumbnailUrl!!)
             }
         }
     }

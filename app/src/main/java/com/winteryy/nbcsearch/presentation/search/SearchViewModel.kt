@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
 import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,20 +21,20 @@ class SearchViewModel @Inject constructor(
     val list: LiveData<List<SearchListItem>> get() = _list
 
     fun getListItem(query: String) {
-        viewModelScope.launch {
-            _list.value = getSearchImageUseCase(query).documents?.map {
+        viewModelScope.launch(Dispatchers.IO) {
+            _list.postValue(getSearchImageUseCase(query).documents?.map {
                 SearchListItem(
                     thumbnailUrl = it.thumbnailUrl ?: "",
                     siteName = it.displaySiteName ?: "",
                     datetime = it.datetime,
                     isFavorite = true
                 )
-            }.orEmpty()
+            }.orEmpty())
         }
     }
 
     fun saveToStorage(item: SearchListItem) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             insertFavoriteItemUseCase.insertFavoriteItem(item.toStorageEntity())
         }
     }
