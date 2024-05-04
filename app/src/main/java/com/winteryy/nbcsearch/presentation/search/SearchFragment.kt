@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.winteryy.nbcsearch.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment: Fragment() {
@@ -39,8 +43,11 @@ class SearchFragment: Fragment() {
             searchViewModel.getListItem(binding.searchEditText.text.toString())
         }
 
-        searchViewModel.list.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.searchList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collectLatest {
+                    adapter.submitList(it)
+                }
         }
     }
 

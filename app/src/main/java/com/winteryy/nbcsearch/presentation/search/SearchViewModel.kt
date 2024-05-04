@@ -6,8 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
 import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCase
+import com.winteryy.nbcsearch.presentation.storage.StorageListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,19 +23,18 @@ class SearchViewModel @Inject constructor(
     private val insertFavoriteItemUseCase: InsertFavoriteItemUseCase
 ): ViewModel() {
 
-    private var _list = MutableLiveData<List<SearchListItem>>()
-    val list: LiveData<List<SearchListItem>> get() = _list
+    private val _searchList = MutableStateFlow<List<SearchListItem>?>(null)
+    val searchList: StateFlow<List<SearchListItem>?> = _searchList.asStateFlow()
+
+    init {
+        _searchList.value = emptyList()
+    }
 
     fun getListItem(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _list.postValue(getSearchImageUseCase(query).documents?.map {
-                SearchListItem(
-                    thumbnailUrl = it.thumbnailUrl ?: "",
-                    siteName = it.displaySiteName ?: "",
-                    datetime = it.datetime,
-                    isFavorite = true
-                )
-            }.orEmpty())
+            getSearchImageUseCase(query).collectLatest { result ->
+                _searchList.emit(result.contentItems?.map { it.toListItem() })
+            }
         }
     }
 
