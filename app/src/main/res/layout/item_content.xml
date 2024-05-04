@@ -58,6 +58,7 @@
                 tools:text="2024-05-01 10:00:00" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/favoriteMarkImageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="@dimen/margin_extra_smaller"

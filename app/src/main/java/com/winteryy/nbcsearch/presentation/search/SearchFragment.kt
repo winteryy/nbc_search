@@ -16,6 +16,9 @@ class SearchFragment: Fragment() {
     private val binding get() = _binding!!
 
     private val searchViewModel: SearchViewModel by viewModels()
+    private val adapter by lazy {
+        SearchRVAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,8 +32,13 @@ class SearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.searchRecyclerView.adapter = adapter
         binding.searchButton.setOnClickListener {
-            searchViewModel.getLogImageItem("죠스바")
+            searchViewModel.getListItem(binding.searchEditText.text.toString())
+        }
+
+        searchViewModel.list.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
     }
 

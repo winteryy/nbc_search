@@ -1,6 +1,7 @@
 package com.winteryy.nbcsearch.presentation.search
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
@@ -13,8 +14,19 @@ class SearchViewModel @Inject constructor(
     private val getSearchImageUseCase: GetSearchImageUseCase
 ): ViewModel() {
 
-    fun getLogImageItem(query: String) = viewModelScope.launch {
-        val result = getSearchImageUseCase(query)
-        Log.d("SearchViewModel", result.documents.toString())
+    private var _list = MutableLiveData<List<SearchListItem>>()
+    val list: LiveData<List<SearchListItem>> get() = _list
+
+    fun getListItem(query: String) {
+        viewModelScope.launch {
+            _list.value = getSearchImageUseCase(query).documents?.map {
+                SearchListItem(
+                    thumbnailUrl = it.thumbnailUrl ?: "",
+                    siteName = it.displaySiteName ?: "",
+                    datetime = it.datetime,
+                    isFavorite = true
+                )
+            }.orEmpty()
+        }
     }
 }
