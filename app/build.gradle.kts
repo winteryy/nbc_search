@@ -61,6 +61,10 @@ dependencies {
     //Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
+    //Gson
+    implementation(libs.gson)
 
     testImplementation(libs.junit)
 

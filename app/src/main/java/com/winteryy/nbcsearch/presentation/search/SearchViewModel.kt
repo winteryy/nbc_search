@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
+import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getSearchImageUseCase: GetSearchImageUseCase
+    private val getSearchImageUseCase: GetSearchImageUseCase,
+    private val insertFavoriteItemUseCase: InsertFavoriteItemUseCase
 ): ViewModel() {
 
     private var _list = MutableLiveData<List<SearchListItem>>()
@@ -27,6 +29,12 @@ class SearchViewModel @Inject constructor(
                     isFavorite = true
                 )
             }.orEmpty()
+        }
+    }
+
+    fun saveToStorage(item: SearchListItem) {
+        viewModelScope.launch {
+            insertFavoriteItemUseCase.insertFavoriteItem(item.toStorageEntity())
         }
     }
 }

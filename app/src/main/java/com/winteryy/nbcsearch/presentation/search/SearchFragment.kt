@@ -17,7 +17,9 @@ class SearchFragment: Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels()
     private val adapter by lazy {
-        SearchRVAdapter()
+        SearchRVAdapter {
+            searchViewModel.saveToStorage(it)
+        }
     }
 
     override fun onCreateView(

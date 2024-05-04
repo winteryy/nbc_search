@@ -5,9 +5,7 @@ import com.winteryy.nbcsearch.data.model.toEntity
 import com.winteryy.nbcsearch.domain.entity.SearchImageEntity
 import com.winteryy.nbcsearch.domain.repository.SearchRepository
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class SearchRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ): SearchRepository {

@@ -1,7 +1,11 @@
 package com.winteryy.nbcsearch.app.di
 
+import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCase
+import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCaseImpl
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCaseImpl
+import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCase
+import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,4 +22,15 @@ abstract class UseCaseModule {
         getSearchImageUseCaseImpl: GetSearchImageUseCaseImpl
     ): GetSearchImageUseCase
 
+    @ViewModelScoped
+    @Binds
+    abstract fun bindGetFavoriteItemMapUseCase(
+        getFavoriteItemMapUseCaseImpl: GetFavoriteItemMapUseCaseImpl
+    ): GetFavoriteItemMapUseCase
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindInsertFavoriteItemUseCase(
+        insertFavoriteItemUseCaseImpl: InsertFavoriteItemUseCaseImpl
+    ): InsertFavoriteItemUseCase
 }

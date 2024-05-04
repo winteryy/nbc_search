@@ -5,7 +5,6 @@ import com.winteryy.nbcsearch.data.model.SearchImageResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class RemoteDataSourceImpl @Inject constructor(
     private val searchService: SearchService
 ): RemoteDataSource {
