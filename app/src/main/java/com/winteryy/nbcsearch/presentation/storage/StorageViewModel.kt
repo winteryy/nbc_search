@@ -27,7 +27,7 @@ class StorageViewModel @Inject constructor(
         viewModelScope.launch {
             getFavoriteItemListUseCase().collectLatest { data ->
                 _favoriteList.update { prev ->
-                    prev.copy( list = data.map { it.toListItem() })
+                    prev.copy( list = data.map { it.toListItem() }.sortedByDescending { it.addedTime } )
                 }
             }
         }

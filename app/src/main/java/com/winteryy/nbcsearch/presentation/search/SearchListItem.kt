@@ -14,7 +14,8 @@ data class SearchListItem(
 fun SearchListItem.toStorageEntity() = StorageEntity(
     thumbnailUrl = thumbnailUrl,
     displaySiteName = siteName,
-    datetime = datetime
+    datetime = datetime,
+    addedTime = System.currentTimeMillis()
 )
 
 fun ContentItemEntity.toListItem() = SearchListItem(

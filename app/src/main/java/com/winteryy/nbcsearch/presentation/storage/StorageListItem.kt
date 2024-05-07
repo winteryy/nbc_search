@@ -7,10 +7,12 @@ data class StorageListItem (
     val thumbnailUrl: String?,
     val siteName: String?,
     val datetime: Date?,
+    val addedTime: Long
 )
 
 fun StorageEntity.toListItem() = StorageListItem(
     thumbnailUrl = thumbnailUrl,
     siteName = displaySiteName,
-    datetime = datetime
+    datetime = datetime,
+    addedTime = addedTime
 )
