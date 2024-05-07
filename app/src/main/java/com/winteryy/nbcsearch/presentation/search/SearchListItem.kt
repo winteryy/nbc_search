@@ -1,7 +1,6 @@
 package com.winteryy.nbcsearch.presentation.search
 
 import com.winteryy.nbcsearch.domain.entity.ContentItemEntity
-import com.winteryy.nbcsearch.domain.entity.SearchImageEntity
 import com.winteryy.nbcsearch.domain.entity.StorageEntity
 import java.util.Date
 

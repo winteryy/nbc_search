@@ -8,7 +8,6 @@ import com.winteryy.nbcsearch.domain.repository.StorageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class StorageRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.winteryy.nbcsearch.app.util.toUiString
 import com.winteryy.nbcsearch.databinding.ItemContentBinding
 
 class SearchRVAdapter(
@@ -32,8 +33,8 @@ class SearchRVAdapter(
         fun onBind(item: SearchListItem) {
             binding.apply {
                 itemImageView.load(item.thumbnailUrl)
-                itemSiteTextView.text = item.siteName
-                itemDateTextView.text = item.datetime.toString()
+                itemSiteTextView.text = item.siteName?.ifBlank { "제목 없음" }
+                itemDateTextView.text = item.datetime.toUiString()
                 favoriteMarkImageView.isVisible = item.isFavorite
             }
             binding.root.setOnClickListener {

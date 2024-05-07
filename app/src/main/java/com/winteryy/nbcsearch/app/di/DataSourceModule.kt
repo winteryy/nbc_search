@@ -6,7 +6,6 @@ import com.winteryy.nbcsearch.data.datasource.local.LocalDataSourceImpl
 import com.winteryy.nbcsearch.data.datasource.remote.RemoteDataSource
 import com.winteryy.nbcsearch.data.datasource.remote.RemoteDataSourceImpl
 import com.winteryy.nbcsearch.data.datasource.remote.api.SearchService
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
