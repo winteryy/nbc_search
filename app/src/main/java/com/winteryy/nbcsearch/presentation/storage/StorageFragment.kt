@@ -37,15 +37,22 @@ class StorageFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.storeRecyclerView.adapter = adapter
+        initView()
+        initViewModel()
 
+    }
+
+    private fun initView() {
+        binding.storeRecyclerView.adapter = adapter
+    }
+
+    private fun initViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             storageViewModel.favoriteList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
-                adapter.submitList(it.list)
-            }
+                    adapter.submitList(it.list)
+                }
         }
-
     }
 
     override fun onDestroyView() {

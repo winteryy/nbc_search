@@ -19,7 +19,7 @@ class StorageViewModel @Inject constructor(
     private val getFavoriteItemListUseCase: GetFavoriteItemListUseCase,
     private val removeFavoriteItemUseCase: RemoveFavoriteItemUseCase
 ): ViewModel() {
-    
+
     private val _favoriteList = MutableStateFlow(StorageListUiState.init())
     val favoriteList: StateFlow<StorageListUiState> = _favoriteList.asStateFlow()
 

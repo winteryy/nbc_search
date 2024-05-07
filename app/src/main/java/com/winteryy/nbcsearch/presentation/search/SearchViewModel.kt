@@ -23,7 +23,6 @@ class SearchViewModel @Inject constructor(
     private val _searchList = MutableStateFlow(SearchListUiState.init())
     val searchList: StateFlow<SearchListUiState> = _searchList.asStateFlow()
 
-
     fun getListItem(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getSearchImageUseCase(query).collectLatest { result ->
@@ -34,6 +33,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
+
     }
 
     fun saveToStorage(item: SearchListItem) {

@@ -1,5 +1,7 @@
 package com.winteryy.nbcsearch.presentation.search
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +27,11 @@ class SearchFragment: Fragment() {
             searchViewModel.saveToStorage(it)
         }
     }
+    private val SHARED_PREF = "search_app_pref"
+    private val LAST_KEYWORD = "last_keyword"
+    private val sharedPref: SharedPreferences by lazy {
+        requireActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +45,29 @@ class SearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
+        initViewModel()
+    }
+
+    private fun initView() {
         binding.searchRecyclerView.adapter = adapter
+
         binding.searchButton.setOnClickListener {
-            searchViewModel.getListItem(binding.searchEditText.text.toString())
+            val keyword = binding.searchEditText.text.toString()
+            searchViewModel.getListItem(keyword)
+            with(sharedPref.edit()) {
+                putString(LAST_KEYWORD, keyword)
+                apply()
+            }
         }
 
+        val lastKeyword = sharedPref.getString(LAST_KEYWORD, null)
+        if (lastKeyword != null) {
+            binding.searchEditText.setText(lastKeyword)
+        }
+    }
+
+    private fun initViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.searchList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
