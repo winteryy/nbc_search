@@ -46,7 +46,7 @@ class SearchFragment: Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.searchList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
-                    adapter.submitList(it)
+                    adapter.submitList(it.list)
                 }
         }
     }

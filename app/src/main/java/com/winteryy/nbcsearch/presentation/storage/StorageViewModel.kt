@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,14 +19,16 @@ class StorageViewModel @Inject constructor(
     private val getFavoriteItemListUseCase: GetFavoriteItemListUseCase,
     private val removeFavoriteItemUseCase: RemoveFavoriteItemUseCase
 ): ViewModel() {
-
-    private val _favoriteList = MutableStateFlow<List<StorageListItem>?>(null)
-    val favoriteList: StateFlow<List<StorageListItem>?> = _favoriteList.asStateFlow()
+    
+    private val _favoriteList = MutableStateFlow(StorageListUiState.init())
+    val favoriteList: StateFlow<StorageListUiState> = _favoriteList.asStateFlow()
 
     init {
         viewModelScope.launch {
             getFavoriteItemListUseCase().collectLatest { data ->
-                _favoriteList.value = data.map { it.toListItem() }
+                _favoriteList.update { prev ->
+                    prev.copy( list = data.map { it.toListItem() })
+                }
             }
         }
     }

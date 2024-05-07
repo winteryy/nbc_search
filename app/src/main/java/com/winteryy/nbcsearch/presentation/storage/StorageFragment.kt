@@ -42,7 +42,7 @@ class StorageFragment: Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             storageViewModel.favoriteList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
-                adapter.submitList(it)
+                adapter.submitList(it.list)
             }
         }
 

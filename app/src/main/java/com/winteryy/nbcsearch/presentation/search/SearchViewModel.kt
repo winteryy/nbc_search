@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,17 +20,18 @@ class SearchViewModel @Inject constructor(
     private val insertFavoriteItemUseCase: InsertFavoriteItemUseCase
 ): ViewModel() {
 
-    private val _searchList = MutableStateFlow<List<SearchListItem>?>(null)
-    val searchList: StateFlow<List<SearchListItem>?> = _searchList.asStateFlow()
+    private val _searchList = MutableStateFlow(SearchListUiState.init())
+    val searchList: StateFlow<SearchListUiState> = _searchList.asStateFlow()
 
-    init {
-        _searchList.value = emptyList()
-    }
 
     fun getListItem(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getSearchImageUseCase(query).collectLatest { result ->
-                _searchList.emit(result.contentItems?.map { it.toListItem() })
+                _searchList.update { prev ->
+                    prev.copy(
+                        list = (result.contentItems?.map { it.toListItem() }.orEmpty())
+                    )
+                }
             }
         }
     }
