@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.winteryy.nbcsearch.app.util.hideSoftKeyboard
 import com.winteryy.nbcsearch.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -59,6 +60,7 @@ class SearchFragment: Fragment() {
                 putString(LAST_KEYWORD, keyword)
                 apply()
             }
+            binding.root.hideSoftKeyboard()
         }
 
         val lastKeyword = sharedPref.getString(LAST_KEYWORD, null)
