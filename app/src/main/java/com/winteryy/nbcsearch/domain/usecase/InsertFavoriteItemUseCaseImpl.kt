@@ -7,7 +7,9 @@ import javax.inject.Inject
 class InsertFavoriteItemUseCaseImpl @Inject constructor(
     private val storageRepository: StorageRepository
 ): InsertFavoriteItemUseCase {
-    override suspend fun insertFavoriteItem(item: StorageEntity) {
+
+    override suspend fun invoke(item: StorageEntity) {
         storageRepository.insertFavoriteItem(item)
     }
+
 }

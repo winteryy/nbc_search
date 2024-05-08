@@ -26,7 +26,11 @@ class SearchFragment: Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private val adapter by lazy {
         SearchRVAdapter {
-            searchViewModel.saveToStorage(it)
+            if(it.isFavorite) {
+                searchViewModel.removeFromStorage(it.thumbnailUrl!!)
+            }else {
+                searchViewModel.saveToStorage(it)
+            }
         }
     }
 

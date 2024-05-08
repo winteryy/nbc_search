@@ -8,6 +8,7 @@ import com.winteryy.nbcsearch.domain.entity.StorageEntity
 import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCase
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
 import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCase
+import com.winteryy.nbcsearch.domain.usecase.RemoveFavoriteItemUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +28,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val getSearchImageUseCase: GetSearchImageUseCase,
     private val getFavoriteItemMapUseCase: GetFavoriteItemMapUseCase,
-    private val insertFavoriteItemUseCase: InsertFavoriteItemUseCase
+    private val insertFavoriteItemUseCase: InsertFavoriteItemUseCase,
+    private val removeFavoriteItemUseCase: RemoveFavoriteItemUseCase
 ): ViewModel() {
 
     private val _combinedSearchList = MutableStateFlow(SearchListUiState.init())
@@ -68,7 +70,13 @@ class SearchViewModel @Inject constructor(
 
     fun saveToStorage(item: SearchListItem) {
         viewModelScope.launch(Dispatchers.IO) {
-            insertFavoriteItemUseCase.insertFavoriteItem(item.toStorageEntity())
+            insertFavoriteItemUseCase(item.toStorageEntity())
+        }
+    }
+
+    fun removeFromStorage(id: String) {
+        viewModelScope.launch (Dispatchers.IO) {
+            removeFavoriteItemUseCase(id)
         }
     }
 }
