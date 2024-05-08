@@ -21,14 +21,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        showFragment("SearchFragment")
+        initView()
+    }
+
+    private fun initView() {
+        showFragment(SEARCH_FRAGMENT_TAG)
 
         binding.searchTabButton.setOnClickListener {
-            showFragment("SearchFragment")
+            showFragment(SEARCH_FRAGMENT_TAG)
         }
 
         binding.storageTabButton.setOnClickListener {
-            showFragment("StorageFragment")
+            showFragment(STORAGE_FRAGMENT_TAG)
         }
     }
 
@@ -42,8 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         if(fragment==null) {
             fragment = when(tag) {
-                "SearchFragment" -> SearchFragment()
-                "StorageFragment" -> StorageFragment()
+                SEARCH_FRAGMENT_TAG -> SearchFragment()
+                STORAGE_FRAGMENT_TAG -> StorageFragment()
                 else -> return
             }
 
@@ -53,5 +57,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         transaction.commit()
+    }
+
+    companion object {
+        private const val SEARCH_FRAGMENT_TAG = "searchFragment"
+        private const val STORAGE_FRAGMENT_TAG = "storageFragment"
     }
 }
