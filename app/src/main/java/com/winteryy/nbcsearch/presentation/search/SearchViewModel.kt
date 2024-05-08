@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -37,19 +38,17 @@ class SearchViewModel @Inject constructor(
 
     init {
         searchImageFlow.combine(favoriteFlow) { searchImageEntity, favoriteMap ->
-            val combinedList = searchImageEntity.documents?.map {
+            searchImageEntity.documents?.map {
                 if(favoriteMap.containsKey(it.thumbnailUrl)) {
                     it.toListItem(true)
                 }else {
                     it.toListItem(false)
                 }
             }.orEmpty()
-
-
+        }.onEach { combinedList ->
             _combinedSearchList.update { prev ->
                 prev.copy(list = combinedList)
             }
-
         }.launchIn(viewModelScope)
     }
 

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class StorageViewModel @Inject constructor(
 
     init {
         favoriteFlow
-            .map { itemMap ->
+            .onEach { itemMap ->
                 val newFavoriteItemList = itemMap.values
                     .map { it.toListItem() }
                     .sortedByDescending { it.addedTime }
@@ -36,7 +37,7 @@ class StorageViewModel @Inject constructor(
                     _favoriteList.update { prev ->
                         prev.copy(list = newFavoriteItemList)
                     }
-                }
+            }
             .launchIn(viewModelScope)
     }
 
