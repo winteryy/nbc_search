@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.winteryy.nbcsearch.domain.model.LocalError
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import java.io.IOException
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
@@ -13,17 +16,29 @@ class LocalDataSourceImpl @Inject constructor(
 
     override fun getDatsStorePref(): Flow<Preferences> {
         return context.dataStore.data
+            .catch {
+                throw LocalError("저장된 데이터를 불러올 수 없습니다.")
+            }
+
     }
 
     override suspend fun insertToDataStore(key: Preferences.Key<String>, itemContent: String) {
-        context.dataStore.edit {
-            it[key] = itemContent
+        try {
+            context.dataStore.edit {
+                it[key] = itemContent
+            }
+        } catch (e: Exception) {
+            throw LocalError("데이터 저장에 실패했습니다.")
         }
     }
 
     override suspend fun removeDataStorePref(key: Preferences.Key<String>) {
-        context.dataStore.edit {
-            it.remove(key)
+        try {
+            context.dataStore.edit {
+                it.remove(key)
+            }
+        } catch (e: Exception) {
+            throw LocalError("데이터 삭제에 실패했습니다.")
         }
     }
 

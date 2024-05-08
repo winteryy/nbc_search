@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.winteryy.nbcsearch.databinding.FragmentStorageBinding
+import com.winteryy.nbcsearch.presentation.common.showErrorSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -51,6 +52,12 @@ class StorageFragment: Fragment() {
             storageViewModel.favoriteList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
                     adapter.submitList(it.list)
+                }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            storageViewModel.errorEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collectLatest {
+                    binding.root.showErrorSnackBar(it.msg)
                 }
         }
     }
