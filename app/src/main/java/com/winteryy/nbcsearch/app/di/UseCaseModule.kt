@@ -2,6 +2,8 @@ package com.winteryy.nbcsearch.app.di
 
 import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemListUseCase
 import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemListUseCaseImpl
+import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCase
+import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCaseImpl
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCaseImpl
 import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCase
@@ -27,7 +29,13 @@ abstract class UseCaseModule {
     @ViewModelScoped
     @Binds
     abstract fun bindGetFavoriteItemMapUseCase(
-        getFavoriteItemMapUseCaseImpl: GetFavoriteItemListUseCaseImpl
+        getFavoriteItemMapUseCaseImpl: GetFavoriteItemMapUseCaseImpl
+    ): GetFavoriteItemMapUseCase
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindGetFavoriteItemListUseCase(
+        getFavoriteItemListUseCaseImpl: GetFavoriteItemListUseCaseImpl
     ): GetFavoriteItemListUseCase
 
     @ViewModelScoped

@@ -11,7 +11,7 @@ class LocalDataSourceImpl @Inject constructor(
     private val context: Context
 ): LocalDataSource {
 
-    override suspend fun getDatsStorePref(): Flow<Preferences> {
+    override fun getDatsStorePref(): Flow<Preferences> {
         return context.dataStore.data
     }
 

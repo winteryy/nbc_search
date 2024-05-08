@@ -15,7 +15,7 @@ class StorageRepositoryImpl @Inject constructor(
 
     private val gson = Gson()
 
-    override suspend fun getFavoriteItemMap(): Flow<HashMap<String, StorageEntity>> {
+    override fun getFavoriteItemMap(): Flow<HashMap<String, StorageEntity>> {
         return localDataSource.getDatsStorePref().map { preferences ->
             val result = HashMap<String, StorageEntity>()
             preferences.asMap().forEach { entry ->

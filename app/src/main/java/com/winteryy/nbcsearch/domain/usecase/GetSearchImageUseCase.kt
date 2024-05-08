@@ -1,7 +1,6 @@
 package com.winteryy.nbcsearch.domain.usecase
 
-import com.winteryy.nbcsearch.domain.entity.ResultEntity
-import kotlinx.coroutines.flow.Flow
+import com.winteryy.nbcsearch.domain.entity.SearchImageEntity
 
 interface GetSearchImageUseCase {
 
@@ -10,6 +9,6 @@ interface GetSearchImageUseCase {
         sort: String = "accuracy",
         page: Int = 1,
         size: Int = 80
-    ): Flow<ResultEntity>
+    ): SearchImageEntity
 
 }

@@ -1,6 +1,8 @@
 package com.winteryy.nbcsearch.presentation.search
 
 import com.winteryy.nbcsearch.domain.entity.ContentItemEntity
+import com.winteryy.nbcsearch.domain.entity.ImageDocumentEntity
+import com.winteryy.nbcsearch.domain.entity.SearchImageEntity
 import com.winteryy.nbcsearch.domain.entity.StorageEntity
 import java.util.Date
 
@@ -16,6 +18,13 @@ fun SearchListItem.toStorageEntity() = StorageEntity(
     displaySiteName = siteName,
     datetime = datetime,
     addedTime = System.currentTimeMillis()
+)
+
+fun ImageDocumentEntity.toListItem(isFavorite: Boolean) = SearchListItem(
+    thumbnailUrl = thumbnailUrl,
+    siteName = displaySiteName,
+    datetime = datetime,
+    isFavorite = isFavorite
 )
 
 fun ContentItemEntity.toListItem() = SearchListItem(

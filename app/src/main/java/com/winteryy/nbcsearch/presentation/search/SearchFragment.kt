@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -28,8 +29,7 @@ class SearchFragment: Fragment() {
             searchViewModel.saveToStorage(it)
         }
     }
-    private val SHARED_PREF = "search_app_pref"
-    private val LAST_KEYWORD = "last_keyword"
+
     private val sharedPref: SharedPreferences by lazy {
         requireActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
     }
@@ -71,7 +71,7 @@ class SearchFragment: Fragment() {
 
     private fun initViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
-            searchViewModel.searchList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            searchViewModel.combinedSearchList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
                     adapter.submitList(it.list)
                 }
@@ -81,5 +81,10 @@ class SearchFragment: Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val SHARED_PREF = "search_app_pref"
+        private const val LAST_KEYWORD = "last_keyword"
     }
 }
