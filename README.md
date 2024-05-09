@@ -78,3 +78,5 @@
 </br></br></br></br>
 
 ### 기타
+- **[TypeB 링크](https://github.com/winteryy/nbc_search/tree/refactor/TypeB)**
+- TypeB 브랜치 코드에는 간략하게 주석을 달아두었습니다.
