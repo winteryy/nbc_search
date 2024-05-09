@@ -1,10 +1,18 @@
 package com.winteryy.nbcsearch.data.model
 
-import com.winteryy.nbcsearch.domain.entity.ImageDocumentEntity
+import com.winteryy.nbcsearch.domain.entity.DocumentEntity.*
+import com.winteryy.nbcsearch.domain.entity.ItemEntityType
 import com.winteryy.nbcsearch.domain.entity.MetaEntity
-import com.winteryy.nbcsearch.domain.entity.SearchImageEntity
+import com.winteryy.nbcsearch.domain.entity.SearchEntity
 
-fun SearchImageResponse.toEntity() = SearchImageEntity(
+fun SearchResponse<ImageDocumentResponse>.toImageEntity() = SearchEntity(
+    meta = meta?.toEntity(),
+    documents = documents?.map {
+        it.toEntity()
+    }
+)
+
+fun SearchResponse<VideoDocumentResponse>.toVideoEntity() = SearchEntity(
     meta = meta?.toEntity(),
     documents = documents?.map {
         it.toEntity()
@@ -23,7 +31,19 @@ fun ImageDocumentResponse.toEntity() = ImageDocumentEntity(
     imageUrl = imageUrl,
     width = width,
     height = height,
-    displaySiteName = displaySiteName,
+    title = displaySiteName,
     docUrl = docUrl,
-    datetime = datetime
+    datetime = datetime,
+    itemEntityType = ItemEntityType.IMAGE
+)
+
+fun VideoDocumentResponse.toEntity() = VideoDocumentEntity(
+    title = title,
+    url = url,
+    datetime = datetime,
+    playTime = playTime,
+    width = width,
+    thumbnailUrl = thumbnail,
+    author = author,
+    itemEntityType = ItemEntityType.VIDEO
 )

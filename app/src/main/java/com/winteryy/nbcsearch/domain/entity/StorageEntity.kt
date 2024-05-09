@@ -4,7 +4,8 @@ import java.util.Date
 
 data class StorageEntity(
     val thumbnailUrl: String?,
-    val displaySiteName: String?,
+    val title: String?,
     val datetime: Date?,
-    val addedTime: Long
+    val addedTime: Long,
+    val itemEntityType: ItemEntityType
 )

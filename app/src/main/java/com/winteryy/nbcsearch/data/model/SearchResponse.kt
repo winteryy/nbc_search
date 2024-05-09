@@ -3,11 +3,11 @@ package com.winteryy.nbcsearch.data.model
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
-data class SearchImageResponse(
+data class SearchResponse<T>(
     @SerializedName("meta")
     val meta: MetaResponse?,
     @SerializedName("documents")
-    val documents: List<ImageDocumentResponse>?
+    val documents: List<T>?
 )
 
 data class MetaResponse(
@@ -36,5 +36,22 @@ data class ImageDocumentResponse(
     val docUrl: String?,
     @SerializedName("datetime")
     val datetime: Date?
+)
+
+data class VideoDocumentResponse(
+    @SerializedName("title")
+    val title: String?,
+    @SerializedName("url")
+    val url: String?,
+    @SerializedName("datetime")
+    val datetime: Date?,
+    @SerializedName("play_time")
+    val playTime: Int?,
+    @SerializedName("width")
+    val width: Int?,
+    @SerializedName("thumbnail")
+    val thumbnail: String?,
+    @SerializedName("author")
+    val author: String?
 )
 

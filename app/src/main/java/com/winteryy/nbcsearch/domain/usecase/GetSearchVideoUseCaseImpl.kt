@@ -5,18 +5,18 @@ import com.winteryy.nbcsearch.domain.entity.SearchEntity
 import com.winteryy.nbcsearch.domain.repository.SearchRepository
 import javax.inject.Inject
 
-
-class GetSearchImageUseCaseImpl @Inject constructor(
+class GetSearchVideoUseCaseImpl @Inject constructor(
     private val searchRepository: SearchRepository
-): GetSearchImageUseCase {
+): GetSearchVideoUseCase {
 
     override suspend fun invoke(
         query: String,
         sort: String,
         page: Int,
         size: Int
-    ): SearchEntity<ImageDocumentEntity> {
-        return searchRepository.getSearchImage(query, sort, page, size)
+    ): SearchEntity<VideoDocumentEntity> {
+        return searchRepository.getSearchVideo(query, sort, page, size)
     }
+
 
 }

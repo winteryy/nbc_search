@@ -1,26 +1,32 @@
 package com.winteryy.nbcsearch.presentation.search
 
-import com.winteryy.nbcsearch.domain.entity.ImageDocumentEntity
+import com.winteryy.nbcsearch.domain.entity.DocumentEntity
 import com.winteryy.nbcsearch.domain.entity.StorageEntity
+import com.winteryy.nbcsearch.presentation.common.ItemType
+import com.winteryy.nbcsearch.presentation.common.toEntity
+import com.winteryy.nbcsearch.presentation.common.toItemType
 import java.util.Date
 
 data class SearchListItem(
     val thumbnailUrl: String?,
-    val siteName: String?,
+    val title: String?,
     val datetime: Date?,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val itemType: ItemType
 )
 
 fun SearchListItem.toStorageEntity() = StorageEntity(
     thumbnailUrl = thumbnailUrl,
-    displaySiteName = siteName,
+    title = title,
     datetime = datetime,
-    addedTime = System.currentTimeMillis()
+    addedTime = System.currentTimeMillis(),
+    itemEntityType = itemType.toEntity()
 )
 
-fun ImageDocumentEntity.toListItem(isFavorite: Boolean) = SearchListItem(
+fun DocumentEntity.toListItem(isFavorite: Boolean) = SearchListItem(
     thumbnailUrl = thumbnailUrl,
-    siteName = displaySiteName,
+    title = title,
     datetime = datetime,
-    isFavorite = isFavorite
+    isFavorite = isFavorite,
+    itemType = itemEntityType.toItemType()
 )

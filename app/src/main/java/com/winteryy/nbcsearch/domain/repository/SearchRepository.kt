@@ -1,6 +1,7 @@
 package com.winteryy.nbcsearch.domain.repository
 
-import com.winteryy.nbcsearch.domain.entity.SearchImageEntity
+import com.winteryy.nbcsearch.domain.entity.DocumentEntity.*
+import com.winteryy.nbcsearch.domain.entity.SearchEntity
 
 interface SearchRepository {
 
@@ -9,6 +10,13 @@ interface SearchRepository {
         sort: String,
         page: Int,
         size: Int
-    ): SearchImageEntity
+    ): SearchEntity<ImageDocumentEntity>
+
+    suspend fun getSearchVideo(
+        query: String,
+        sort: String,
+        page: Int,
+        size: Int
+    ): SearchEntity<VideoDocumentEntity>
 
 }

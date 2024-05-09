@@ -4,6 +4,8 @@ import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCase
 import com.winteryy.nbcsearch.domain.usecase.GetFavoriteItemMapUseCaseImpl
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCase
 import com.winteryy.nbcsearch.domain.usecase.GetSearchImageUseCaseImpl
+import com.winteryy.nbcsearch.domain.usecase.GetSearchVideoUseCase
+import com.winteryy.nbcsearch.domain.usecase.GetSearchVideoUseCaseImpl
 import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCase
 import com.winteryy.nbcsearch.domain.usecase.InsertFavoriteItemUseCaseImpl
 import com.winteryy.nbcsearch.domain.usecase.RemoveFavoriteItemUseCase
@@ -23,6 +25,12 @@ abstract class UseCaseModule {
     abstract fun bindGetSearchImageUseCase(
         getSearchImageUseCaseImpl: GetSearchImageUseCaseImpl
     ): GetSearchImageUseCase
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindGetSearchVideoUseCase(
+        getSearchVideoUseCaseImpl: GetSearchVideoUseCaseImpl
+    ): GetSearchVideoUseCase
 
     @ViewModelScoped
     @Binds
