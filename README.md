@@ -1,8 +1,10 @@
-# 앱개발 심화주차 개인과제 TypeA
+# 앱개발 심화주차 개인과제 TypeB
 ## 이미지 검색 및 보관 앱
+#### (TypeA와 차이점 위주로 작성했습니다)
+
 ### 🏷️ 실행 이미지
 <div align = "center">
-    <img src = "./screenshots/sc001.gif">
+    <img src = "./screenshots/sc004.gif">
     <p></p>
     <b>초기 상태에서 검색 후 보관함 저장</br>(저장 시간 기준 내림차순 정렬)</b>
     <p></p></br></br>

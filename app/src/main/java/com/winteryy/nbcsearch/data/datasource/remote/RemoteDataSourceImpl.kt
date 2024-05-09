@@ -13,6 +13,9 @@ class RemoteDataSourceImpl @Inject constructor(
     private val searchService: SearchService
 ) : RemoteDataSource {
 
+    /**
+     * API로부터 이미지 검색결과를 받아옵니다.
+     */
     override suspend fun getSearchImage(
         query: String,
         sort: String,
@@ -35,6 +38,9 @@ class RemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    /**
+     * API로부터 동영상 검색결과를 받아옵니다.
+     */
     override suspend fun getSearchVideo(
         query: String,
         sort: String,

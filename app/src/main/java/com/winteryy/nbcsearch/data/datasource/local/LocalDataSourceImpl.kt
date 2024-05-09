@@ -13,7 +13,9 @@ import javax.inject.Inject
 class LocalDataSourceImpl @Inject constructor(
     private val context: Context
 ): LocalDataSource {
-
+    /**
+     * DataStore로부터 저장된 보관함 데이터를 Flow로 받아옵니다.
+     */
     override fun getDatsStorePref(): Flow<Preferences> {
         return context.dataStore.data
             .catch {
@@ -22,6 +24,12 @@ class LocalDataSourceImpl @Inject constructor(
 
     }
 
+    /**
+     * DataStore에 받아온 itemContent를 저장합니다.
+     *
+     * @param key DataStore 내에서 데이터를 식별할 키 값입니다. 고유함이 보장되는 thumbnail url을 대신 사용했습니다.
+     * @param itemContent String : entity를 json으로 파싱한 형태입니다.
+     */
     override suspend fun insertToDataStore(key: Preferences.Key<String>, itemContent: String) {
         try {
             context.dataStore.edit {
@@ -32,6 +40,9 @@ class LocalDataSourceImpl @Inject constructor(
         }
     }
 
+    /**
+     * 받아온 key 값을 DataStore 내에서 검색해 삭제합니다.
+     */
     override suspend fun removeDataStorePref(key: Preferences.Key<String>) {
         try {
             context.dataStore.edit {

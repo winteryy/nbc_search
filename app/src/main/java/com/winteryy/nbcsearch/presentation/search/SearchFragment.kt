@@ -60,52 +60,10 @@ class SearchFragment: Fragment() {
     }
 
     private fun initView() {
-        binding.searchRecyclerView.adapter = adapter
-        binding.searchRecyclerView.addOnScrollListener(object: OnScrollListener() {
-            var topFlag = true
+        setRecyclerView()
+        setButtonListeners()
 
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val lastPos = (binding.searchRecyclerView.layoutManager as GridLayoutManager).findLastVisibleItemPosition()
-                val itemNum = adapter.itemCount-1
-
-                if(itemNum <= lastPos + RV_THRESHOLD) {
-                    searchViewModel.loadMore()
-                }
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if(newState==RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(-1)) {
-                    binding.scrollToTopFAB.startAnimation(AlphaAnimation(1f, 0f).apply { duration=500 })
-                    binding.scrollToTopFAB.isVisible = false
-                    topFlag = true
-                } else {
-                    if(topFlag) {
-                        binding.scrollToTopFAB.startAnimation(AlphaAnimation(0f, 1f).apply { duration=500 })
-                        binding.scrollToTopFAB.isVisible = true
-                        topFlag = false
-                    }
-                }
-            }
-        })
-
-        binding.scrollToTopFAB.setOnClickListener {
-            binding.searchRecyclerView.smoothScrollToPosition(0)
-        }
-
-        binding.searchButton.setOnClickListener {
-            val keyword = binding.searchEditText.text.toString()
-            searchViewModel.searchListItem(keyword)
-            with(sharedPref.edit()) {
-                putString(LAST_KEYWORD, keyword)
-                apply()
-            }
-            binding.searchRecyclerView.scrollToPosition(0)
-            binding.root.hideSoftKeyboard()
-        }
-
+        // 마지막 검색 기록이 있다면 이를 검색창에 입력합니다.
         val lastKeyword = sharedPref.getString(LAST_KEYWORD, null)
         if (lastKeyword != null) {
             binding.searchEditText.setText(lastKeyword)
@@ -124,6 +82,74 @@ class SearchFragment: Fragment() {
                 .collectLatest {
                     binding.root.showErrorSnackBar(it.msg)
                 }
+        }
+    }
+
+    /**
+     * 리사이클러뷰에 필요한 값들을 할당하는 메소드입니다.
+     */
+    private fun setRecyclerView() {
+        binding.searchRecyclerView.adapter = adapter
+        binding.searchRecyclerView.addOnScrollListener(object : OnScrollListener() {
+            var topFlag = true
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                //현재 어댑터가 가진 아이템 갯수-10번째 아이템이 노출되는 상태가 되면 다음 페이지 로드를 시도
+                val lastPos =
+                    (binding.searchRecyclerView.layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+                val itemNum = adapter.itemCount - 1
+
+                if (itemNum <= lastPos + RV_THRESHOLD) {
+                    searchViewModel.loadMore()
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                    && !recyclerView.canScrollVertically(-1)) {
+                    binding.scrollToTopFAB.startAnimation(
+                        AlphaAnimation(
+                            1f,
+                            0f
+                        ).apply { duration = 500 }
+                    )
+                    binding.scrollToTopFAB.isVisible = false
+                    topFlag = true
+                } else {
+                    //topFlag를 통해 매번 애니메이션이 노출되는 것을 방지
+                    if (topFlag) {
+                        binding.scrollToTopFAB.startAnimation(
+                            AlphaAnimation(
+                                0f,
+                                1f
+                            ).apply { duration = 500 }
+                        )
+                        binding.scrollToTopFAB.isVisible = true
+                        topFlag = false
+                    }
+                }
+            }
+        })
+    }
+
+    private fun setButtonListeners() {
+        binding.scrollToTopFAB.setOnClickListener {
+            binding.searchRecyclerView.smoothScrollToPosition(0)
+        }
+
+        binding.searchButton.setOnClickListener {
+            val keyword = binding.searchEditText.text.toString()
+            searchViewModel.searchListItem(keyword)
+            //마지막 검색어 갱신
+            with(sharedPref.edit()) {
+                putString(LAST_KEYWORD, keyword)
+                apply()
+            }
+            binding.searchRecyclerView.scrollToPosition(0)
+            binding.root.hideSoftKeyboard()
         }
     }
 

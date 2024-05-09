@@ -3,6 +3,9 @@ package com.winteryy.nbcsearch.presentation.common
 import com.winteryy.nbcsearch.domain.model.LocalError
 import com.winteryy.nbcsearch.domain.model.NetworkError
 
+/**
+ * Presentation 레이어에서 사용되는 ErrorEvent
+ */
 data class ErrorEvent(
     val msg: String
 ) {

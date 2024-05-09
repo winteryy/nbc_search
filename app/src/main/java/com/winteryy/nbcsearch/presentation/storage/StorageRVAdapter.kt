@@ -35,8 +35,8 @@ class StorageRVAdapter(
             binding.apply {
                 itemImageView.load(item.thumbnailUrl?: R.drawable.image_error)
                 itemTitleTextView.text = when(item.itemType) {
-                    ItemType.IMAGE -> "[Image] ${item.title?:"제목 없음"}"
-                    ItemType.VIDEO -> "[Video] ${item.title?:"제목 없음"}"
+                    ItemType.IMAGE -> "[Image] ${item.title?:"제목 없음".ifBlank { "제목 없음" }}"
+                    ItemType.VIDEO -> "[Video] ${item.title?:"제목 없음".ifBlank { "제목 없음" }}"
                 }
                 itemDateTextView.text = item.datetime.toUiString()
             }

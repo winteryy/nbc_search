@@ -27,6 +27,7 @@ class StorageViewModel @Inject constructor(
     private val removeFavoriteItemUseCase: RemoveFavoriteItemUseCase
 ): ViewModel(), ErrorViewModel {
 
+    //보관함 저장 목록을 View에서 collect 하기 위한 StateFlow
     private val _favoriteList = MutableStateFlow(StorageListUiState.init())
     val favoriteList: StateFlow<StorageListUiState> = _favoriteList.asStateFlow()
 
@@ -38,6 +39,7 @@ class StorageViewModel @Inject constructor(
     init {
         favoriteFlow
             .onEach { itemMap ->
+                //HashMap 형태로 받아오기 때문에 value만 빼내어 이용
                 val newFavoriteItemList = itemMap.values
                     .map { it.toListItem() }
                     .sortedByDescending { it.addedTime }
@@ -51,6 +53,9 @@ class StorageViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    /**
+     * 보관함에서 아이템을 제거하기 위한 메소드
+     */
     fun removeItem(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {

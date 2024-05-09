@@ -36,8 +36,9 @@ class SearchRVAdapter(
             binding.apply {
                 itemImageView.load(item.thumbnailUrl?: R.drawable.image_error)
                 itemTitleTextView.text = when(item.itemType) {
-                    ItemType.IMAGE -> "[Image] ${item.title?:"제목 없음"}"
-                    ItemType.VIDEO -> "[Video] ${item.title?:"제목 없음"}"
+                    //item의 title이 null이어도 제목 없음 출력, 공백 값이어도 제목 없음 출력
+                    ItemType.IMAGE -> "[Image] ${item.title?:"제목 없음".ifBlank { "제목 없음" }}"
+                    ItemType.VIDEO -> "[Video] ${item.title?:"제목 없음".ifBlank { "제목 없음" }}"
                 }
                 itemDateTextView.text = item.datetime.toUiString()
                 favoriteMarkImageView.isVisible = item.isFavorite

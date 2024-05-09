@@ -9,6 +9,9 @@ class GetFavoriteItemMapUseCaseImpl @Inject constructor(
     private val storageRepository: StorageRepository
 ): GetFavoriteItemMapUseCase {
 
+    /**
+     * 보관함 저장 데이터 Flow를 가져오는 UseCase
+     */
     override fun invoke(): Flow<HashMap<String, StorageEntity>> {
         return storageRepository.getFavoriteItemMap()
     }

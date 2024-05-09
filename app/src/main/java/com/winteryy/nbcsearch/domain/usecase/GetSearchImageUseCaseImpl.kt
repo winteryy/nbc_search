@@ -10,6 +10,9 @@ class GetSearchImageUseCaseImpl @Inject constructor(
     private val searchRepository: SearchRepository
 ): GetSearchImageUseCase {
 
+    /**
+     * 이미지 검색 결과를 가져오는 UseCase
+     */
     override suspend fun invoke(
         query: String,
         sort: String,

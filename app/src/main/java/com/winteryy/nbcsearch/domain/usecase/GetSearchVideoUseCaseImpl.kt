@@ -9,6 +9,9 @@ class GetSearchVideoUseCaseImpl @Inject constructor(
     private val searchRepository: SearchRepository
 ): GetSearchVideoUseCase {
 
+    /**
+     * 동영상 검색 결과를 가져오는 UseCase
+     */
     override suspend fun invoke(
         query: String,
         sort: String,
