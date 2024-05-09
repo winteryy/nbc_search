@@ -10,8 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.winteryy.nbcsearch.presentation.common.hideSoftKeyboard
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.winteryy.nbcsearch.databinding.FragmentSearchBinding
+import com.winteryy.nbcsearch.presentation.common.hideSoftKeyboard
 import com.winteryy.nbcsearch.presentation.common.showErrorSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -56,14 +59,27 @@ class SearchFragment: Fragment() {
 
     private fun initView() {
         binding.searchRecyclerView.adapter = adapter
+        binding.searchRecyclerView.addOnScrollListener(object: OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastPos = (binding.searchRecyclerView.layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+                val itemNum = adapter.itemCount-1
+
+                if(itemNum <= lastPos + RV_THRESHOLD) {
+                    searchViewModel.loadMore()
+                }
+            }
+        })
 
         binding.searchButton.setOnClickListener {
             val keyword = binding.searchEditText.text.toString()
-            searchViewModel.getListItem(keyword)
+            searchViewModel.searchListItem(keyword)
             with(sharedPref.edit()) {
                 putString(LAST_KEYWORD, keyword)
                 apply()
             }
+            binding.searchRecyclerView.scrollToPosition(0)
             binding.root.hideSoftKeyboard()
         }
 
@@ -96,5 +112,7 @@ class SearchFragment: Fragment() {
     companion object {
         private const val SHARED_PREF = "search_app_pref"
         private const val LAST_KEYWORD = "last_keyword"
+
+        private const val RV_THRESHOLD = 10
     }
 }

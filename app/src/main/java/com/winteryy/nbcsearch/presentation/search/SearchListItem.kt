@@ -23,10 +23,10 @@ fun SearchListItem.toStorageEntity() = StorageEntity(
     itemEntityType = itemType.toEntity()
 )
 
-fun DocumentEntity.toListItem(isFavorite: Boolean) = SearchListItem(
+fun DocumentEntity.toListItem() = SearchListItem(
     thumbnailUrl = thumbnailUrl,
     title = title,
     datetime = datetime,
-    isFavorite = isFavorite,
+    isFavorite = false,
     itemType = itemEntityType.toItemType()
 )
