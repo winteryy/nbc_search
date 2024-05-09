@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -60,6 +62,8 @@ class SearchFragment: Fragment() {
     private fun initView() {
         binding.searchRecyclerView.adapter = adapter
         binding.searchRecyclerView.addOnScrollListener(object: OnScrollListener() {
+            var topFlag = true
+
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -70,7 +74,26 @@ class SearchFragment: Fragment() {
                     searchViewModel.loadMore()
                 }
             }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(newState==RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(-1)) {
+                    binding.scrollToTopFAB.startAnimation(AlphaAnimation(1f, 0f).apply { duration=500 })
+                    binding.scrollToTopFAB.isVisible = false
+                    topFlag = true
+                } else {
+                    if(topFlag) {
+                        binding.scrollToTopFAB.startAnimation(AlphaAnimation(0f, 1f).apply { duration=500 })
+                        binding.scrollToTopFAB.isVisible = true
+                        topFlag = false
+                    }
+                }
+            }
         })
+
+        binding.scrollToTopFAB.setOnClickListener {
+            binding.searchRecyclerView.smoothScrollToPosition(0)
+        }
 
         binding.searchButton.setOnClickListener {
             val keyword = binding.searchEditText.text.toString()

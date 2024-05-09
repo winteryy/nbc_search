@@ -58,13 +58,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_extra_small"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchBackgroundView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/item_content"/>
+        tools:listitem="@layout/item_content" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scrollToTopFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_larger"
+        android:src="@drawable/baseline_arrow_upward_24"
+        android:visibility="invisible"
+        app:backgroundTint="@color/white"
+        app:borderWidth="2dp"
+        app:fabCustomSize="@dimen/size_fab_custom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="?attr/shapeAppearanceCornerExtraLarge"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
