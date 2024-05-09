@@ -3,4 +3,6 @@
     <string name="search_image">이미지 검색</string>
     <string name="my_storage">내 보관함</string>
     <string name="search">검색</string>
+    <string name="menu_item_search">검색 결과</string>
+    <string name="menu_item_storage">내 보관함</string>
 </resources>

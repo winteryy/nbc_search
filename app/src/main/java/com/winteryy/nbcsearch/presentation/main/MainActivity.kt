@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.winteryy.nbcsearch.R
 import com.winteryy.nbcsearch.databinding.ActivityMainBinding
 import com.winteryy.nbcsearch.presentation.search.SearchFragment
@@ -25,42 +28,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        showFragment(SEARCH_FRAGMENT_TAG)
-
-        binding.searchTabButton.setOnClickListener {
-            showFragment(SEARCH_FRAGMENT_TAG)
-        }
-
-        binding.storageTabButton.setOnClickListener {
-            showFragment(STORAGE_FRAGMENT_TAG)
-        }
+        initNavigation()
     }
 
-    private fun showFragment(tag: String) {
-        val transaction = supportFragmentManager.beginTransaction()
-        var fragment = supportFragmentManager.findFragmentByTag(tag)
-
-        for(frag in supportFragmentManager.fragments) {
-            transaction.hide(frag)
-        }
-
-        if(fragment==null) {
-            fragment = when(tag) {
-                SEARCH_FRAGMENT_TAG -> SearchFragment()
-                STORAGE_FRAGMENT_TAG -> StorageFragment()
-                else -> return
-            }
-
-            transaction.add(R.id.mainFragmentContainerView, fragment, tag)
-        }else {
-            transaction.show(fragment)
-        }
-
-        transaction.commit()
+    private fun initNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 
-    companion object {
-        private const val SEARCH_FRAGMENT_TAG = "searchFragment"
-        private const val STORAGE_FRAGMENT_TAG = "storageFragment"
-    }
 }
